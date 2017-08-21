@@ -1,10 +1,20 @@
 -- premake5.lua
+
 workspace "containerpp"
     configurations { "Debug", "Release" }
-
-project "containerpp"
-    kind "SharedLib"
     language "C++"
-    includedirs { "include" }
-    files { "include/**.h", "src/**.cpp" }
     targetdir "lib/%{cfg.buildcfg}"
+    flags { "C++14" }
+
+    filter "configurations:Debug"
+        defines { "DEBUG" }
+        -- include debugging symbols
+        flags { "Symbols" }
+        
+    filter "configurations:Release"
+        defines { "RELEASE" }
+        optimize "On"
+    
+    project "containerpp"
+        kind "SharedLib"
+        files { "include/**.h", "src/**.cpp" }
